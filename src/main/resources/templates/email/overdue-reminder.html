@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Overdue Reminder</title>
+</head>
+<body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+    <div style="background-color: #f44336; color: white; padding: 20px; text-align: center;">
+        <h1>⚠️ Book Overdue Notice</h1>
+    </div>
+
+    <div style="padding: 20px; background-color: #f9f9f9;">
+        <h2>Dear <span th:text="${memberName}">Member</span>,</h2>
+
+        <p>This is a reminder that you have an overdue book:</p>
+
+        <div style="background-color: white; padding: 15px; border-left: 4px solid #f44336; margin: 20px 0;">
+            <p><strong>Book Title:</strong> <span th:text="${bookTitle}"></span></p>
+            <p><strong>Days Overdue:</strong> <span th:text="${daysOverdue}"></span> days</p>
+            <p><strong>Current Fine:</strong> ₹<span th:text="${fineAmount}"></span></p>
+        </div>
+
+        <p>Please return the book as soon as possible to avoid additional charges.</p>
+
+        <p style="margin-top: 20px;">
+            <strong>Note:</strong> Members with unpaid fines over ₹100 cannot borrow new books.
+        </p>
+    </div>
+
+    <div style="text-align: center; padding: 10px; color: #666; font-size: 12px;">
+        © 2024 Library Management System
+    </div>
+</body>
+</html>

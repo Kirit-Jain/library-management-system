@@ -1,0 +1,97 @@
+# ============================================
+# DEVELOPMENT PROFILE
+# For local development on your machine
+# ============================================
+
+spring:
+  # DATABASE - Local PostgreSQL
+  datasource:
+    url: jdbc:postgresql://localhost:5432/library_db
+    username: library_user
+    password: library123
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      pool-name: LibraryDevPool
+      maximum-pool-size: 5
+      minimum-idle: 2
+      idle-timeout: 300000
+      connection-timeout: 30000
+      max-lifetime: 1800000
+
+  # JPA - Show SQL queries for debugging
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+
+  # REDIS - Local Redis
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 60000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 2
+          max-wait: -1ms
+
+  # CACHE
+  cache:
+    redis:
+      time-to-live: 3600000      # 1 hour
+
+  # EMAIL - Gmail SMTP
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+        debug: false
+
+# ============================================
+# LOGGING - More verbose for dev
+# ============================================
+logging:
+  level:
+    root: INFO
+    com.library.management: DEBUG
+    org.springframework.security: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.cache: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/library-dev.log
+
+# ============================================
+# ACTUATOR - Expose more endpoints for dev
+# ============================================
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,env,beans,mappings,configprops,caches
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+  health:
+    redis:
+      enabled: true
+    db:
+      enabled: true
+  info:
+    env:
+      enabled: true
+    git:
+      mode: full

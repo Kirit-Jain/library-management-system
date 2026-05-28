@@ -1,0 +1,147 @@
+# ============================================
+# PRODUCTION PROFILE
+# For real deployment (Docker/Kubernetes/Cloud)
+# All sensitive values from environment variables
+# ============================================
+
+spring:
+  # DATABASE - From environment variables
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:postgres}:${DB_PORT:5432}/${DB_NAME:library_db}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      pool-name: LibraryProdPool
+      maximum-pool-size: 30
+      minimum-idle: 10
+      idle-timeout: 300000
+      connection-timeout: 30000
+      max-lifetime: 1800000
+      leak-detection-threshold: 60000
+
+  # JPA - No SQL logging in prod (performance)
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        generate_statistics: false
+
+  # REDIS - From environment
+  data:
+    redis:
+      host: ${REDIS_HOST:redis}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 60000ms
+      lettuce:
+        pool:
+          max-active: 16
+          max-idle: 8
+          min-idle: 4
+          max-wait: -1ms
+
+  # CACHE - Longer TTL in prod
+  cache:
+    redis:
+      time-to-live: 7200000      # 2 hours
+
+  # EMAIL - From environment
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+# ============================================
+# LOGGING - JSON format for production
+# ============================================
+logging:
+  level:
+    root: WARN
+    com.library.management: INFO
+    org.springframework: WARN
+    org.hibernate: ERROR
+    org.flywaydb: INFO
+  pattern:
+    console: '{"timestamp":"%d{yyyy-MM-dd HH:mm:ss.SSS}","level":"%level","thread":"%thread","logger":"%logger","message":"%message","exception":"%exception"}%n'
+  file:
+    name: /var/log/library/application.log
+    max-size: 100MB
+    max-history: 30
+    total-size-cap: 3GB
+
+# ============================================
+# ACTUATOR - Minimal exposure in prod
+# ============================================
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: when_authorized
+      probes:
+        enabled: true
+      group:
+        liveness:
+          include: livenessState
+        readiness:
+          include: readinessState,db,redis
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+    redis:
+      enabled: true
+    db:
+      enabled: true
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+      percentiles:
+        http.server.requests: 0.5, 0.95, 0.99
+    tags:
+      application: ${spring.application.name}
+      environment: production
+      region: ${REGION:ap-south-1}
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+# ============================================
+# SERVER - Production tuning
+# ============================================
+server:
+  forward-headers-strategy: framework
+  tomcat:
+    accept-count: 100
+    max-connections: 8192
+    threads:
+      max: 200
+      min-spare: 20
+    connection-timeout: 20000
+    keep-alive-timeout: 60000
+    max-keep-alive-requests: 100
+  shutdown: graceful
+
+# Graceful shutdown timeout
+spring.lifecycle.timeout-per-shutdown-phase: 30s

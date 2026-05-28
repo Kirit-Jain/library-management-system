@@ -1,0 +1,12 @@
+target/
+.idea/
+.git/
+.gitignore
+*.iml
+*.md
+.mvn/wrapper/maven-wrapper.jar
+docs/
+.env
+.env.local
+logs/
+*.log

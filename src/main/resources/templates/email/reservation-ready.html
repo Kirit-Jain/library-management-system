@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservation Ready</title>
+</head>
+<body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+    <div style="background-color: #4CAF50; color: white; padding: 20px; text-align: center;">
+        <h1>🎉 Your Book is Ready!</h1>
+    </div>
+
+    <div style="padding: 20px; background-color: #f9f9f9;">
+        <h2>Hello <span th:text="${memberName}"></span>,</h2>
+
+        <p>Great news! The book you reserved is now available for pickup.</p>
+
+        <div style="background-color: white; padding: 15px; border-left: 4px solid #4CAF50;">
+            <p><strong>Book:</strong> <span th:text="${bookTitle}"></span></p>
+            <p><strong>Pickup By:</strong> <span th:text="${expiryDate}"></span></p>
+        </div>
+
+        <p><strong>Important:</strong> If you don't collect the book by the expiry date, your reservation will be cancelled.</p>
+    </div>
+</body>
+</html>

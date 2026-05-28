@@ -1,0 +1,137 @@
+# ============================================
+# BASE CONFIGURATION
+# Common settings shared by all profiles
+# ============================================
+
+spring:
+  application:
+    name: library-management-system
+
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+  # Java 21 Virtual Threads (better performance)
+  threads:
+    virtual:
+      enabled: true
+
+  # JPA - Common settings
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        default_batch_fetch_size: 20
+        jdbc:
+          batch_size: 30
+        order_inserts: true
+        order_updates: true
+
+  # Flyway - Database Migrations
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+    baseline-version: 0
+    repair-on-validate-failure: true
+
+  # File Upload Limits
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+
+  # Cache Configuration
+  cache:
+    type: redis
+
+# ============================================
+# SERVER CONFIG (Common)
+# ============================================
+server:
+  port: ${SERVER_PORT:8080}
+  error:
+    include-message: always
+    include-binding-errors: always
+  compression:
+    enabled: true
+    mime-types: application/json,text/html,text/css,application/javascript,application/xml
+    min-response-size: 1024
+  http2:
+    enabled: true
+
+# ============================================
+# LIBRARY BUSINESS SETTINGS (Common)
+# ============================================
+library:
+  # Fine settings
+  fine-per-day: 10.00
+  fine-threshold-block: 100.00
+
+  # Borrowing rules
+  max-borrow-days: 14
+  max-renewals: 2
+  reservation-expiry-days: 3
+
+  # Borrowing limits per membership type
+  max-books:
+    standard: 5
+    premium: 10
+    student: 3
+    senior: 7
+
+  # Email settings
+  email:
+    from: ${MAIL_FROM:noreply@library.com}
+    from-name: Library Management System
+    enabled: ${EMAIL_ENABLED:true}
+
+  # Report/PDF settings
+  report:
+    company-name: ${COMPANY_NAME:City Public Library}
+    company-address: ${COMPANY_ADDRESS:123 Library Street, Mumbai, India}
+    company-phone: ${COMPANY_PHONE:+91-22-1234-5678}
+    company-email: ${COMPANY_EMAIL:info@citylibrary.com}
+
+# ============================================
+# FILE UPLOAD CONFIGURATION
+# ============================================
+file:
+  upload:
+    base-path: ${FILE_UPLOAD_PATH:${user.home}/library-uploads}
+    max-size: 5242880          # 5 MB in bytes
+    allowed-image-types: jpg,jpeg,png,webp
+    book-cover-path: book-covers
+    profile-photo-path: profile-photos
+
+# ============================================
+# RATE LIMITING
+# ============================================
+rate-limit:
+  enabled: ${RATE_LIMIT_ENABLED:true}
+  requests-per-minute: 60
+  requests-per-minute-auth: 120
+
+# ============================================
+# JWT CONFIGURATION
+# ============================================
+jwt:
+  secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+  expiration: 86400000              # 24 hours in milliseconds
+  refresh-expiration: 604800000     # 7 days in milliseconds
+
+# ============================================
+# SWAGGER / OPENAPI
+# ============================================
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: method
+    try-it-out-enabled: true
+    display-request-duration: true
+    filter: true
+  show-actuator: false

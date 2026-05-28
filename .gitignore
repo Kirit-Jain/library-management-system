@@ -1,0 +1,108 @@
+# ============================================
+#   SECRETS & ENVIRONMENT
+# ============================================
+.env
+.env.local
+.env.*.local
+!.env.example
+!.env.production
+
+# ============================================
+#   SPRING BOOT / MAVEN
+# ============================================
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+*.jar
+*.war
+*.ear
+*.class
+.mvn/wrapper/maven-wrapper.jar
+HELP.md
+
+# ============================================
+#   FRONTEND (React / Node)
+# ============================================
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+
+# ============================================
+#   LOGS
+# ============================================
+logs/
+*.log
+log/
+npm-debug.log*
+
+# ============================================
+#   UPLOADS / GENERATED FILES
+# ============================================
+uploads/
+*.tmp
+*.bak
+
+# ============================================
+#   DOCKER
+# ============================================
+docker/nginx/ssl/*.key
+docker/nginx/ssl/*.crt
+docker/nginx/ssl/*.pem
+
+# ============================================
+#   INTELLIJ IDEA
+# ============================================
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# ============================================
+#   VS CODE
+# ============================================
+.vscode/
+!.vscode/extensions.json
+
+# ============================================
+#   ECLIPSE / STS
+# ============================================
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# ============================================
+#   NETBEANS
+# ============================================
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# ============================================
+#   OS FILES
+# ============================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ============================================
+#   MISC
+# ============================================
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

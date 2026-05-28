@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Due Soon Reminder</title>
+</head>
+<body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+    <div style="background-color: #FF9800; color: white; padding: 20px; text-align: center;">
+        <h1>📖 Book Due Soon</h1>
+    </div>
+
+    <div style="padding: 20px; background-color: #f9f9f9;">
+        <h2>Hello <span th:text="${memberName}">Member</span>,</h2>
+
+        <p>Friendly reminder that your borrowed book is due soon:</p>
+
+        <div style="background-color: white; padding: 15px; border-left: 4px solid #FF9800;">
+            <p><strong>Book:</strong> <span th:text="${bookTitle}"></span></p>
+            <p><strong>Due Date:</strong> <span th:text="${dueDate}"></span></p>
+        </div>
+
+        <p>Please return or renew the book before the due date to avoid fines.</p>
+        <p>You can renew the book if no one has reserved it.</p>
+    </div>
+</body>
+</html>
