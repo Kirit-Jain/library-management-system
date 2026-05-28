@@ -35,17 +35,19 @@ public class WebConfig implements WebMvcConfigurer {
             .addResourceLocations("file:" + uploadPath + "/");
     }
 
-    // @Override
-    // public void addCorsMappings(CorsRegistry registry) {
-    //     registry.addMapping("/**")
-    //         .allowedOrigins(
-    //             "http://localhost:3000",
-    //             "http://localhost:5173"
-    //         )
-    //         .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
-    //         .allowedHeaders("*")
-    //         .exposedHeaders("X-Rate-Limit-Remaining", "X-Rate-Limit-Limit")
-    //         .allowCredentials(true)
-    //         .maxAge(3600);
-    // }
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+            .allowedOrigins(
+                "http://localhost:3000",
+                "http://localhost:5173",
+                "http://localhost:3001",
+                "https://library-management-system-1-mboe.onrender.com"
+            )
+            .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
+            .allowedHeaders("*")
+            .exposedHeaders("X-Rate-Limit-Remaining", "X-Rate-Limit-Limit")
+            .allowCredentials(true)
+            .maxAge(3600);
+    }
 }
